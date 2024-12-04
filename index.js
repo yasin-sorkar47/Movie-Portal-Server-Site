@@ -8,7 +8,7 @@ const port = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.SECRET_USER_NAME}:${process.env.SECRET_PASSWORD}@cluster0.ze0za.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -27,6 +27,22 @@ async function run() {
 
     const moviesCollection = client.db("MoviesDB").collection("Movies");
 
+    // get all data from database
+    app.get("/movies", async (req, res) => {
+      const cursor = moviesCollection.find().limit(Number(req.query.limit));
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // get one data from database
+    app.get("/movies/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await moviesCollection.findOne(query);
+      res.send(result);
+    });
+
+    // post data in mongodb
     app.post("/movies", async (req, res) => {
       const movie = req.body;
       const result = await moviesCollection.insertOne(movie);
