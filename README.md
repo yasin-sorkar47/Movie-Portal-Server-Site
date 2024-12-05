@@ -2,12 +2,12 @@
 
 here is the Link
 
-# [https://movfix-99724.web.app](https://movfix-99724.web.app)
+# [https://movie-fix-server-a-10.vercel.app](https://movie-fix-server-a-10.vercel.app)
 
 ### Key Features of my project
 
-- in this project you will see many movies card in that card you will get the button clicking that button it will take you to details page.
-- in details page you wil get three buttons.
-- one is add to favorites by that you can add movie as your favorite.
-- second is update by that you can update movie.
-- third is delete button by that you can delete movie.
+- you can get all moves by (/movies).
+- you can get a move by (/movies/id).
+- you can add to card moves by (/status/id)
+- you can delete moves by (/movies/id)
+- you can update moves by (/movies/id)
