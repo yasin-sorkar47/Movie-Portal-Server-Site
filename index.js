@@ -49,6 +49,31 @@ async function run() {
       res.send(result);
     });
 
+    // update movie
+    app.put("/movies/:id", async (req, res) => {
+      const id = req.params.id;
+      const movie = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateMovie = {
+        $set: {
+          poster: movie.poster,
+          title: movie.title,
+          genre: movie.genre,
+          duration: movie.duration,
+          releaseYear: movie.releaseYear,
+          summary: movie.summary,
+        },
+      };
+      const result = await moviesCollection.updateOne(
+        filter,
+        updateMovie,
+        options
+      );
+
+      res.send(result);
+    });
+
     // delete the movie
     app.delete("/movies/:id", async (req, res) => {
       const id = req.params.id;
