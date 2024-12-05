@@ -74,6 +74,22 @@ async function run() {
       res.send(result);
     });
 
+    // update status isFavorite
+    app.put("/status/:id", async (req, res) => {
+      const id = req.params.id;
+      const movie = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateMovie = {
+        $set: {
+          isFavorite: true,
+          email: movie.email,
+        },
+      };
+      const result = await moviesCollection.updateOne(filter, updateMovie);
+
+      res.send(result);
+    });
+
     // delete the movie
     app.delete("/movies/:id", async (req, res) => {
       const id = req.params.id;
