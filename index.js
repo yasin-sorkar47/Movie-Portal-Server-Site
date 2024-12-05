@@ -26,6 +26,7 @@ async function run() {
     // await client.connect();
 
     const moviesCollection = client.db("MoviesDB").collection("Movies");
+    const favoriteCollection = client.db("MoviesDB").collection("Favorites");
 
     // get all data from database
     app.get("/movies", async (req, res) => {
@@ -74,27 +75,33 @@ async function run() {
       res.send(result);
     });
 
-    // update status isFavorite
-    app.put("/status/:id", async (req, res) => {
-      const id = req.params.id;
-      const movie = req.body;
-      const filter = { _id: new ObjectId(id) };
-      const updateMovie = {
-        $set: {
-          isFavorite: true,
-          email: movie.email,
-        },
-      };
-      const result = await moviesCollection.updateOne(filter, updateMovie);
-
-      res.send(result);
-    });
-
     // delete the movie
     app.delete("/movies/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await moviesCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // get favorite data
+    app.get("/favorite", async (req, res) => {
+      const cursor = favoriteCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // post data as Favorite
+    app.post("/favorite", async (req, res) => {
+      const movies = req.body;
+      const result = await favoriteCollection.insertOne(movies);
+      res.send(result);
+    });
+
+    // delete the favorite movie
+    app.delete("/favorite/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await favoriteCollection.deleteOne(query);
       res.send(result);
     });
 
