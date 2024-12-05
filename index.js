@@ -117,6 +117,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`my app is running on port: ${port}`);
 });
-
-// server site class room link
-// https://github.com/programming-hero-web-course2/b10-a10-server-side-yasin-sorkar47
